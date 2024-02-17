@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'api',
         'passwords' => 'accounts',
     ],
 
@@ -41,7 +41,7 @@ return [
             'provider' => 'accounts',
         ],
         'api' => [
-            'driver' => 'passport',
+            'driver' => 'jwt',
             'provider' => 'accounts',
         ],
     ],

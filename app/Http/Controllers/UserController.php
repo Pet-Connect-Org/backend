@@ -19,14 +19,6 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -42,25 +34,14 @@ class UserController extends Controller
             return response()->json(['errors' => $validator->errors()], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        try {
-            $user = User::create([
-                'name' => $request->input('name'),
-                'sex' => $request->input('sex'),
-                'birthday' => $request->input('birthday'),
-                'address' => $request->input('address'),
-                'account_id' => $request->input('account_id')
-            ]);
-            if ($user) {
-                return response()->json(['message' => 'User created successfully'], 200);
-            } else {
-                return response()->json(['error' => 'Failed to create user'], 500);
-            }        
-        } catch (\Exception $e) {
-            $accountController = new AccountController();
-            $accountController->destroy($request->input('account_id'));
-    
-            return response()->json(['error' => $e->getMessage()], 500);
-        } 
+        $user = User::create([
+            'name' => $request->input('name'),
+            'sex' => $request->input('sex'),
+            'birthday' => $request->input('birthday'),
+            'address' => $request->input('address'),
+            'account_id' => $request->input('account_id')
+        ]);
+        return $user;
     }
 
     /**
@@ -69,14 +50,9 @@ class UserController extends Controller
     public function show(string $id)
     {
         //
-    }
+        $user = User::find("account_id", $id)->first();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        return $user;
     }
 
     /**
@@ -93,5 +69,33 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function getUserByAccessToken(Request $request) {
+        $account = $request->user();
+    
+        if (!$account) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'User not found',
+            ], 404);
+        }
+
+        $user = User::where('account_id', $account->id)->first();
+    
+        return response()->json([
+            'status' => 200,
+            'user' => $user,
+            'message' => 'Get user successful',
+        ]);
+    }
+    public function getUserById(string $id) {
+        $user = User::find($id);
+    
+        return response()->json([
+            'status' => 200,
+            'user' => $user,
+            'message' => 'Get user successful',
+        ]);
     }
 }

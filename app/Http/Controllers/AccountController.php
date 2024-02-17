@@ -29,6 +29,15 @@ class AccountController extends Controller
     }
 
     /**
+     * Active account
+     */
+    public function active($email) {
+        Account::where('email', $email)->update(['isActive' => true]);
+
+        return true;
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -57,19 +66,8 @@ class AccountController extends Controller
             'remember_token' => $remember_token
         ]);
 
-        $token = $account->createToken('Laravel Password Grant Client')->accessToken;
-
-        $userController = new UserController();
-
-        $response = $userController->store($request->merge(['account_id' => $account->id]));
-
-        if ($response->getStatusCode() === 200) {
-            // User creation successful
-            return response()->json(['message' => 'User created successfully', 'token' => $token ], 200);
-        } else {
-            // User creation failed, return error response
-            return response()->json(['error' => 'Failed to create user'], $response->getStatusCode());
-        }
+        // $token = $account->createToken('Laravel Password Grant Client')->accessToken;
+        return $account;
     }
 
     /**

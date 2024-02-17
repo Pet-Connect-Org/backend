@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('accounts', function (Blueprint $table) {
+        Schema::create('email_verification_tokens', function (Blueprint $table) {
             $table->id();
-            $table->text('email');
-            $table->text('password');
-            $table->integer('role')->default(1); // 0 for admin, 1 for user and 2 for partner
-            $table->boolean('isActived')->default(false);
-            $table->rememberToken();
+            $table->string('email');
+            $table->integer('token');
+            $table->timestamp('expired_at');
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('accounts');
+        Schema::dropIfExists('email_verification_tokens');
     }
 };

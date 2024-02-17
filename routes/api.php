@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,13 +21,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group([
-    "middleware" => ["auth:api"]
-], function(){
-
+Route::middleware(['auth'])->group(function(){
+    Route::get('/user/me', [UserController::class, 'getUserByAccessToken']);
 });
 
-Route::post('/sign-up', [AuthController::class, 'signUp']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/auth/sign-up', [AuthController::class, 'signUp']);
+Route::post('/auth/login', [AuthController::class, 'login']);
+Route::post('/auth/verify_user_email', [AuthController::class, 'verifyUserEmail']);
+Route::post('/auth/resend_verification_link', [AuthController::class, 'resendEmailVerificationLink']);
+Route::post('/auth/logout', [AuthController::class, 'logout']);
+
+Route::get('/user/{id}', [UserController::class, 'getUserById']);
 
 
