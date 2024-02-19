@@ -28,7 +28,7 @@ Route::middleware(['auth'])->group(function(){
 Route::post('/auth/sign-up', [AuthController::class, 'signUp']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/verify_user_email', [AuthController::class, 'verifyUserEmail']);
-Route::post('/auth/resend_verification_link', [AuthController::class, 'resendEmailVerificationLink']);
+Route::post('/auth/resend_verification_code', [AuthController::class, 'resendEmailVerificationCode']);
 Route::post('/auth/logout', [AuthController::class, 'logout']);
 
 Route::get('/user/{id}', [UserController::class, 'getUserById']);

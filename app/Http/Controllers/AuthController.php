@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\Auth\ResendEmailVerificationLinkRequest;
+use App\Http\Requests\Auth\ResendEmailVerificationCodeRequest;
 use App\Http\Requests\Auth\VerifyEmailRequest;
+use App\Models\Account;
 use App\Services\EmailVerificationService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -17,8 +20,6 @@ class AuthController extends Controller
     public function __construct(private EmailVerificationService $service)
     {
     }
-
-    
 
     public function signUp(Request $request)
     {
@@ -47,20 +48,21 @@ class AuthController extends Controller
 
         $userController = new UserController();
 
-        $userController->store($request->merge(['account_id' => $account->id]));
+        $birthday = Carbon::parse($request->birthday)->format('Y-m-d');
+
+        $userController->store($request->merge(['account_id' => $account->id, 'birthday' => $birthday]));
         
         $this->service->sendVerificationLink($account);
         
         $token = auth()->login($account);
 
         return response()->json([
-            'status' => 201,
             'message' => 'Sign up successful',
             'access_token' => $token
-        ]);
+        ],201);
     }
 
-    public function resendEmailVerificationLink(ResendEmailVerificationLinkRequest $request) {
+    public function resendEmailVerificationCode(ResendEmailVerificationCodeRequest $request) {
         return $this->service->resendLink($request->email);
     }
 
@@ -70,14 +72,27 @@ class AuthController extends Controller
     }
 
     public function login(LoginRequest $request)
+
     {
+        $account = Account::where('email', $request->input('email'))->first();
+
+        if (!$account || !Hash::check($request->input('password'), $account->password)) {
+            return response()->json([
+                'message' => 'This email not register with any account.'
+            ], 404);
+        }
+
+        if ($account->isActived == 0) {
+            return response()->json([
+                'message' => 'Account have not active yet.'
+            ], 423);
+        }
         $token = auth()->attempt($request->validated());
         if ($token) {
             return $this->responseWithToken($token, auth()->user());
         } else {
             return response()->json([
-                'status' => 'failed',
-                'message' => 'invalid credentials'
+                'message' => 'Invalid credentials'
             ],401);
         }
     }
@@ -87,15 +102,14 @@ class AuthController extends Controller
     {
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json(['message' => 'Successfully logged out'], 201);
     }
 
     public function responseWithToken($token, $user) {
         return response()->json([
-            'status' => 201,
             'user' => $user,
             'token' => $token
-        ]);
+        ], 201);
 
     }
 }

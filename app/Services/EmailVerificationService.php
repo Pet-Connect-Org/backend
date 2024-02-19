@@ -18,7 +18,7 @@ class EmailVerificationService {
             response()->json([
                 'status'=> "failed",
                 "message" => 'Account not found'
-            ])->send();
+            ],404)->send();
             exit();
         } else {
             $this->sendVerificationLink($account);
@@ -26,7 +26,7 @@ class EmailVerificationService {
             return response()->json([
                 'status'=> "success",
                 "message" => 'Verification link resend successfully'
-            ]);
+            ],201);
         }
     }
 
@@ -46,7 +46,7 @@ class EmailVerificationService {
             response()->json([
                 'status'=> "failed",
                 "message" => 'Account not found'
-            ])->send();
+            ],404)->send();
             exit();
         }
 
@@ -60,12 +60,12 @@ class EmailVerificationService {
             return response()->json([
                 'status'=> "success",
                 "message" => 'Verify successfully'
-            ]);
+            ],201);
         } else {
             return response()->json([
                 'status'=> "failed",
                 "message" => 'Cannot verify'
-            ]);
+            ],404);
         }
     }
 
@@ -78,14 +78,13 @@ class EmailVerificationService {
             if ($tokenDTB->expired_at > now()) {
                 return $tokenDTB;
             } else {
+                $token->delete();
                 response()->json([
                     'status'=> "failed",
                     "message" => 'token expired'
                 ])->send();
                 exit();
             }
-
-
         } else {
             response()->json([
                 'status'=> "failed",
