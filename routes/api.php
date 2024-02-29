@@ -33,4 +33,8 @@ Route::post('/auth/logout', [AuthController::class, 'logout']);
 
 Route::get('/user/{id}', [UserController::class, 'getUserById']);
 
+Route::get('/', function() {
+    return response()->json(['hello' => "Hello"], 200);
+});
+
 

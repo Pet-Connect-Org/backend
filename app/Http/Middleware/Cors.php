@@ -15,12 +15,18 @@ class Cors
      */
     public function handle($request, Closure $next)
     {
-        return $next($request)
-            ->header('Access-Control-Allow-Origin', 'http://localhost:3000')
-            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-            ->header('Access-Control-Allow-Credentials', true)
-            ->header('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,X-Token-Auth,Authorization')
-            ->header('Accept', 'application/json');
-    }
+        $allowedOrigins = ['http://localhost:3000', 'https://pet-connect.website'];
 
+        $origin = $request->headers->get('Origin');
+
+        if (in_array($origin, $allowedOrigins)) {
+            return $next($request)
+                ->header('Access-Control-Allow-Origin', $origin)
+                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+                ->header('Access-Control-Allow-Credentials', true)
+                ->header('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,X-Token-Auth,Authorization');
+        }
+
+        return $next($request);
+    }
 }
