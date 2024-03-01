@@ -12,22 +12,6 @@ use Illuminate\Support\Str;
 class AccountController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(Request $request)
-    {
-
-    }
-
-    /**
      * Active account
      */
     public function active($email) {
@@ -35,7 +19,6 @@ class AccountController extends Controller
 
         return true;
     }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -68,23 +51,6 @@ class AccountController extends Controller
         // $token = $account->createToken('Laravel Password Grant Client')->accessToken;
         return $account;
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      */
@@ -98,20 +64,65 @@ class AccountController extends Controller
         $account = Account::findOrFail($id);
         $account->update($request->all());
     }
-
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-    try {
-        $account = Account::findOrFail($id);
+        try {
+            $account = Account::findOrFail($id);
 
-        $account->delete();
+            $account->delete();
 
-        return response()->json(['message' => 'Account deleted successfully'], Response::HTTP_OK);
-    } catch (\Exception $e) {
-        return response()->json(['error' => 'Failed to delete account'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['message' => 'Account deleted successfully'], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete account'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
-}
+    public function changePassword(string $id, Request $request) {
+        
+        $validator = Validator::make($request->all(), [
+            'oldPassword' => [
+                'required',
+                'min:6',
+                'max:30',
+                'regex:/^(?=.*[A-Za-z])(?=.*\d).+$/'
+            ],
+            'password' => [
+                'required',
+                'min:6',
+                'max:30',
+                'regex:/^(?=.*[A-Za-z])(?=.*\d).+$/'
+            ],
+            'confirmPassword' => ['required', 'same:password']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $account = Account::where('id', $id)->first();
+
+        if (!$account || !Hash::check($request->input('oldPassword'), $account->password)) {
+            return response()->json([
+                'message' => 'Mismatch old password.'
+            ], 401);
+        }
+
+        if ($account->isActived == 0) {
+            return response()->json([
+                'message' => 'Account have not active yet.'
+            ], 423);
+        }
+        
+        $hashedPassword = Hash::make($request->input('password'));
+        
+        $returnValue = $account->update(['password' => $hashedPassword]);
+
+        if ($returnValue) {
+            return response()->json(['message' => 'Update password successfully'], Response::HTTP_OK);
+        } else {
+            return response()->json(['message' => 'Update password failed'], 500);
+        }
+    }
 }

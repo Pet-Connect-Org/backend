@@ -72,13 +72,18 @@ class AuthController extends Controller
     }
 
     public function login(LoginRequest $request)
-
     {
         $account = Account::where('email', $request->input('email'))->first();
 
-        if (!$account || !Hash::check($request->input('password'), $account->password)) {
+        if (!$account) {
             return response()->json([
                 'message' => 'This email not register with any account.'
+            ], 404);
+        }
+
+        if (!Hash::check($request->input('password'), $account->password)) {
+            return response()->json([
+                'message' => 'Please check your email or password.'
             ], 404);
         }
 
@@ -87,12 +92,14 @@ class AuthController extends Controller
                 'message' => 'Account have not active yet.'
             ], 423);
         }
+
         $token = auth()->attempt($request->validated());
+
         if ($token) {
             return $this->responseWithToken($token, auth()->user());
         } else {
             return response()->json([
-                'message' => 'Invalid credentials'
+                'message' => 'Invalid credentials.'
             ],401);
         }
     }
