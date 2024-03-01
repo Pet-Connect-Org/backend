@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware(['auth'])->group(function(){
     Route::get('/user/me', [UserController::class, 'getUserByAccessToken']);
+    Route::post('/account/change_password/{id}', [AccountController::class, 'changePassword']);
 });
 
 Route::post('/auth/sign-up', [AuthController::class, 'signUp']);
