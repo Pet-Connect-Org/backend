@@ -76,7 +76,6 @@ class UserController extends Controller
     
         if (!$account) {
             return response()->json([
-                'status' => 404,
                 'message' => 'User not found',
             ], 404);
         }
@@ -84,18 +83,16 @@ class UserController extends Controller
         $user = User::where('account_id', $account->id)->first();
     
         return response()->json([
-            'status' => 200,
             'user' => $user,
             'message' => 'Get user successful',
-        ]);
+        ],200);
     }
     public function getUserById(string $id) {
         $user = User::find($id);
     
         return response()->json([
-            'status' => 200,
             'user' => $user,
             'message' => 'Get user successful',
-        ]);
+        ],200);
     }
 }
