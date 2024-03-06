@@ -81,9 +81,16 @@ class UserController extends Controller
         }
 
         $user = User::where('account_id', $account->id)->first();
+
+        $userData = $user->toArray();
+        $accountData = $account->toArray();
     
+        unset($accountData['id']);
+
+        $mergedData = array_merge($userData, $accountData);
+
         return response()->json([
-            'user' => $user,
+            'user' => $mergedData,
             'message' => 'Get user successful',
         ],200);
     }
