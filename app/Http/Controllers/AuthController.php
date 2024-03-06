@@ -6,6 +6,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\ResendEmailVerificationCodeRequest;
 use App\Http\Requests\Auth\VerifyEmailRequest;
 use App\Models\Account;
+use App\Models\User;
 use App\Services\EmailVerificationService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -96,7 +97,14 @@ class AuthController extends Controller
         $token = auth()->attempt($request->validated());
 
         if ($token) {
-            return $this->responseWithToken($token, auth()->user());
+            $user = User::where('account_id', auth()->user()->id)->first();
+
+            $accountData = auth()->user();
+        
+            unset($accountData['id']);
+    
+            $mergedData = array_merge($user->toArray(), $accountData->toArray());
+            return $this->responseWithToken($token, $mergedData);
         } else {
             return response()->json([
                 'message' => 'Invalid credentials.'
