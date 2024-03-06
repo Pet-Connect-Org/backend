@@ -36,7 +36,7 @@ class AccountController extends Controller
         ]);
     
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return response()->json(['errors' => $validator->errors()], 400);
         }
 
         $hashedPassword = Hash::make($request->input('password'));
@@ -48,7 +48,6 @@ class AccountController extends Controller
             'remember_token' => $remember_token
         ]);
 
-        // $token = $account->createToken('Laravel Password Grant Client')->accessToken;
         return $account;
     }
     /**
@@ -74,13 +73,12 @@ class AccountController extends Controller
 
             $account->delete();
 
-            return response()->json(['message' => 'Account deleted successfully'], Response::HTTP_OK);
+            return response()->json(['message' => 'Account deleted successfully'], 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to delete account'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['error' => 'Failed to delete account'],500);
         }
     }
     public function changePassword(string $id, Request $request) {
-        
         $validator = Validator::make($request->all(), [
             'oldPassword' => [
                 'required',
@@ -120,7 +118,7 @@ class AccountController extends Controller
         $returnValue = $account->update(['password' => $hashedPassword]);
 
         if ($returnValue) {
-            return response()->json(['message' => 'Update password successfully'], Response::HTTP_OK);
+            return response()->json(['message' => 'Update password successfully'], 201);
         } else {
             return response()->json(['message' => 'Update password failed'], 500);
         }
