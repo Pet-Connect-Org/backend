@@ -46,7 +46,13 @@ class PostController extends Controller
             ]);
         }
 
-        $postList = $postsQuery->orderBy('created_at',$orderBy)->skip($offset)->take($limit)->with('user')->get();
+        $postList = $postsQuery->orderBy('created_at', $orderBy)
+        ->with(['user', 'likes', 'comments' => function ($query) {
+            $query->orderBy('created_at', 'asc');
+        }])
+        ->skip($offset)
+        ->take($limit)
+        ->get();
 
         return response()->json([
             'data' => $postList,
@@ -96,9 +102,9 @@ class PostController extends Controller
         ], 500);
     }
 
-    public function deletePost(Request $request) {
+    public function deletePost(string $id) {
         try {
-            $account = Post::find($request->id);
+            $account = Post::find($id);
             if ($account) {
 
                 $account->delete();
