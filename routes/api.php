@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikePostController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Models\LikePost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +38,15 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/post', [PostController::class, 'createPost']);
     Route::put('/post/{id}', [PostController::class, 'updatePost']);
     Route::delete('/post/{id}', [PostController::class, 'deletePost']);
+
+    Route::post('/post/like/{id}', [LikePostController::class, 'like']);
+    Route::post('/post/unlike/{id}', [LikePostController::class, 'unlike']);
+
+
+    /*      COMMENT    */
+    Route::post('/comment', [CommentController::class, 'createComment']);
+    Route::put('/comment/{id}', [CommentController::class, 'updateComment']);
+    Route::delete('/comment/{id}', [CommentController::class, 'deleteComment']);
 });
 
 /*      AUTH       */

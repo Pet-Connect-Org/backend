@@ -123,7 +123,8 @@ class AuthController extends Controller
     public function responseWithToken($token, $user) {
         return response()->json([
             'user' => $user,
-            'token' => $token
+            'token' => $token,
+            'message' => "Success"
         ], 201);
 
     }
