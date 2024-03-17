@@ -48,7 +48,7 @@ class PostController extends Controller
 
         $postList = $postsQuery->orderBy('created_at', $orderBy)
         ->with(['user', 'likes', 'comments' => function ($query) {
-            $query->orderBy('created_at', 'asc');
+            $query->orderBy('created_at', 'asc')->with('likes');
         }])
         ->skip($offset)
         ->take($limit)

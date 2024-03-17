@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model
+class LikeComment extends Model
 {
     use HasFactory;
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'content',
-        'post_id',
+        'comment_id',
         'user_id'
     ];
 
@@ -21,13 +20,8 @@ class Comment extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function post()
+    public function comment()
     {
-        return $this->belongsTo(Post::class, 'post_id', 'id');
-    }
-
-    public function likes()
-    {
-        return $this->hasMany(LikeComment::class);
+        return $this->belongsTo(Comment::class, 'comment_id', 'id');
     }
 }

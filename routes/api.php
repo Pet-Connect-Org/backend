@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeCommentController;
 use App\Http\Controllers\LikePostController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
@@ -42,11 +43,12 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/post/like/{id}', [LikePostController::class, 'like']);
     Route::post('/post/unlike/{id}', [LikePostController::class, 'unlike']);
 
-
     /*      COMMENT    */
     Route::post('/comment', [CommentController::class, 'createComment']);
     Route::put('/comment/{id}', [CommentController::class, 'updateComment']);
     Route::delete('/comment/{id}', [CommentController::class, 'deleteComment']);
+    Route::post('/comment/like/{id}', [LikeCommentController::class, 'like']);
+    Route::post('/comment/unlike/{id}', [LikeCommentController::class, 'unlike']);
 });
 
 /*      AUTH       */
