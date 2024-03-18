@@ -4,10 +4,21 @@ namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *     required={"email", "token"},
+ *     @OA\Property(property="email", type="string", format="email", example="buithuyngoc1@gmail.com"),
+ *     @OA\Property(property="token", type="string", example="token")
+ * )
+ */
+
+
 class VerifyEmailRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
+     * @return bool
+     * 
      */
     public function authorize(): bool
     {
@@ -22,7 +33,6 @@ class VerifyEmailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
             'email' => ['required', 'email', 'max:255'],
             "token" => ['required', 'string', ]
         ];

@@ -4,10 +4,23 @@ namespace App\Http\Requests\Post;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *     required={"content"},
+ *     @OA\Property(property="content", type="string", example="Bui Thuy Ngoc rat xinh dep=))"),
+ *     @OA\Property(property="latitude", type="number", example="20"),
+ *     @OA\Property(property="longitude", type="number", example="106")
+ * )
+ */
+
+ 
+
+
 class PostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
+     * @return true
      */
     public function authorize(): bool
     {

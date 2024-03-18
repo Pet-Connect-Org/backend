@@ -10,6 +10,44 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class Account extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
+    /**
+ * @OA\Schema(
+ *     schema="Account",
+ *     required={ "email", "password"},
+ *     @OA\Property(
+ *         property="id",
+ *         type="integer",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="email",
+ *         type="string",
+ *         example="buithuyngoc1@gmail.com"
+ *     ),
+ *     @OA\Property(
+ *         property="password",
+ *         type="string",
+ *         example="password"
+ *     ),
+ *     @OA\Property(
+ *         property="role",
+ *         type="string",
+ *         example="admin"
+ *     ),
+ *     @OA\Property(
+ *         property="created_at",
+ *         type="string",
+ *         format="date-time",
+ *         example="13/02/2003"
+ *     ),
+ *     @OA\Property(
+ *         property="updated_at",
+ *         type="string",
+ *         format="date-time",
+ *         example="13/02/2003"
+ *     )
+ * )
+ */
     protected $primaryKey = 'id';
     protected $fillable = [
         'email',

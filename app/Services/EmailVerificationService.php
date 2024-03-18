@@ -44,7 +44,6 @@ class EmailVerificationService {
         $account = Account::where('email',$email)->first();
         if (!$account) {
             response()->json([
-                'status'=> "failed",
                 "message" => 'Account not found'
             ],404)->send();
             exit();
@@ -58,7 +57,6 @@ class EmailVerificationService {
             $account->isActived = true;
             $account->save();
             return response()->json([
-                'status'=> "success",
                 "message" => 'Verify successfully'
             ],201);
         } else {

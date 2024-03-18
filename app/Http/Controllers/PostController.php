@@ -83,6 +83,53 @@ class PostController extends Controller
         }
     }
 
+
+   
+
+/**
+ * Create post
+ *
+ * @OA\Post(
+ *     path="/post",
+ *     tags={"Post"},
+ *     security={{"bearerAuth":{}}},
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\MediaType(
+ *             mediaType="application/json",
+ *             @OA\Schema(
+ *                 ref="#/components/schemas/PostRequest"
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=201,
+ *         description="Create new post successfully.",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Post created successfully."),
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Unauthenticated.",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Unauthenticated"),
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Create new post failed.",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Create new post failed.")
+ *         )
+ *     )
+ * )
+ *
+ * @param \Illuminate\Http\Request $request
+ * @return \Illuminate\Http\JsonResponse
+ */
+
+
     public function createPost(PostRequest $request) {
         $user = User::where('account_id', auth()->user()->id)->first();
 

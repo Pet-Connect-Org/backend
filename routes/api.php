@@ -29,7 +29,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware(['auth'])->group(function(){
     /*      USER       */
     Route::get('/user/me', [UserController::class, 'getUserByAccessToken']);
-
+    
     /*      ACCOUNT       */
     Route::post('/account/change_password/{id}', [AccountController::class, 'changePassword']);
 
