@@ -4,10 +4,18 @@ namespace App\Http\Requests\Comment;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *     required={"content", "post_id"},
+ *     @OA\Property(property="content", type="string", example="Bui Thuy Ngoc rat xinh dep=))"),
+ *     @OA\Property(property="post_id", type="integer", example="1"),
+ * )
+ */
 class CommentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
+     * @return boolean
      */
     public function authorize(): bool
     {

@@ -16,7 +16,7 @@ use Illuminate\Validation\Rule;
  *       @OA\Property(property="birthday", type="string", format="date", example="13/02/2003"),
  *       @OA\Property(property="address", type="string", example="Ha Dong"),     
  * )
-*/
+ */
 
 class SignupRequest extends FormRequest
 {

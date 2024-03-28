@@ -13,4 +13,5 @@ class EmailVerificationToken extends Model
         'email',
         'token',
         'expired_at',
-    ];}
+    ];
+}

@@ -14,7 +14,8 @@ class AccountController extends Controller
     /**
      * Active account
      */
-    public function active($email) {
+    public function active($email)
+    {
         Account::where('email', $email)->update(['isActive' => true]);
 
         return true;
@@ -34,14 +35,14 @@ class AccountController extends Controller
             ],
             'confirmPassword' => ['required', 'same:password']
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
 
         $hashedPassword = Hash::make($request->input('password'));
         $remember_token = Str::random(10);
-        
+
         $account = Account::create([
             'email' => $request->input('email'),
             'password' => $hashedPassword,
@@ -75,10 +76,11 @@ class AccountController extends Controller
 
             return response()->json(['message' => 'Account deleted successfully'], 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to delete account'],500);
+            return response()->json(['error' => 'Failed to delete account'], 500);
         }
     }
-    public function changePassword(string $id, Request $request) {
+    public function changePassword(string $id, Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'oldPassword' => [
                 'required',
@@ -112,9 +114,9 @@ class AccountController extends Controller
                 'message' => 'Account have not active yet.'
             ], 423);
         }
-        
+
         $hashedPassword = Hash::make($request->input('password'));
-        
+
         $returnValue = $account->update(['password' => $hashedPassword]);
 
         if ($returnValue) {

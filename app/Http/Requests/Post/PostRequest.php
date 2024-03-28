@@ -12,15 +12,11 @@ use Illuminate\Foundation\Http\FormRequest;
  *     @OA\Property(property="longitude", type="number", example="106")
  * )
  */
-
- 
-
-
 class PostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     * @return true
+     * @return boolean
      */
     public function authorize(): bool
     {

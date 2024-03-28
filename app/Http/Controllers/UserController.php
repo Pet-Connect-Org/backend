@@ -25,11 +25,11 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'sex'=> ['required', Rule::in(['male', 'female'])],
-            'birthday'=> 'required',
-            'address'=> 'required',
+            'sex' => ['required', Rule::in(['male', 'female'])],
+            'birthday' => 'required',
+            'address' => 'required',
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -71,9 +71,10 @@ class UserController extends Controller
         //
     }
 
-    public function getUserByAccessToken(Request $request) {
+    public function getUserByAccessToken(Request $request)
+    {
         $account = $request->user();
-    
+
         if (!$account) {
             return response()->json([
                 'message' => 'User not found',
@@ -84,7 +85,7 @@ class UserController extends Controller
 
         $userData = $user->toArray();
         $accountData = $account->toArray();
-    
+
         unset($accountData['id']);
 
         $mergedData = array_merge($userData, $accountData);
@@ -92,14 +93,16 @@ class UserController extends Controller
         return response()->json([
             'user' => $mergedData,
             'message' => 'Get user successful',
-        ],200);
+        ], 200);
     }
-    public function getUserById(string $id) {
-        $user = User::find($id);
-    
+
+    public function getUserById(string $id)
+    {
+        $user = User::with('posts')->find($id);
+
         return response()->json([
-            'user' => $user,
+            'data' => $user,
             'message' => 'Get user successful',
-        ],200);
+        ], 200);
     }
 }

@@ -21,7 +21,7 @@ class User extends Authenticatable
     {
         return $this->hasOne(Account::class, 'id', 'account_id');
     }
-    
+
     public function posts()
     {
         return $this->hasMany(Post::class);
@@ -36,5 +36,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(LikePost::class);
     }
-  
+
+    public function followers() // người đang theo dõi user
+    {
+        return $this->hasMany(Follow::class, 'following_user_id', 'id');
+    }
+
+    public function following() //đang theo dõi ai đó
+    {
+        return $this->hasMany(Follow::class, 'user_id', 'id');
+    }
 }

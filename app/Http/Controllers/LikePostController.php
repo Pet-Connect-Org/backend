@@ -9,15 +9,47 @@ class LikePostController extends Controller
 {
     //
 
-    public function like(string $id) {
+    /**
+     * @OA\Post(
+     *     path="/post/toggleLike/{id}",
+     *     tags={"Like Post"},
+     *     summary="Like a post",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the post to like",
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Like successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Like successfully.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Already like",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Already like.")
+     *         )
+     *     ),
+     * )
+     */
+    public function like(string $id)
+    {
         $user = User::where('account_id', auth()->user()->id)->first();
 
-        
+
         $isLiked = LikePost::where([
             'user_id' => $user->id,
             'post_id' => $id
-            ])->first();
-     
+        ])->first();
+
         if ($isLiked) {
             return response()->json([
                 'message' => 'Already like.'
@@ -33,7 +65,8 @@ class LikePostController extends Controller
         }
     }
 
-    public function unlike(string $id) {
+    public function unlike(string $id)
+    {
         $user = User::where('account_id', auth()->user()->id)->first();
 
         $likePost = LikePost::where([

@@ -9,15 +9,49 @@ use Illuminate\Http\Request;
 class LikeCommentController extends Controller
 {
     //
-    public function like(string $id) {
+
+
+    /**
+     * @OA\Post(
+     *     path="/comment/like/{id}",
+     *     tags={"Like Comment"},
+     *     summary="Like a comment",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the comment to like",
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Like successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Like successfully.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Already like",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Already like.")
+     *         )
+     *     ),
+     * )
+     */
+    public function like(string $id)
+    {
         $user = User::where('account_id', auth()->user()->id)->first();
 
-        
+
         $isLiked = LikeComment::where([
             'user_id' => $user->id,
             'comment_id' => $id
-            ])->first();
-     
+        ])->first();
+
         if ($isLiked) {
             return response()->json([
                 'message' => 'Already like.'
@@ -33,7 +67,40 @@ class LikeCommentController extends Controller
         }
     }
 
-    public function unlike(string $id) {
+
+    /**
+     * @OA\Post(
+     *     path="/comment/unlike/{id}",
+     *     tags={"Like Comment"},
+     *     summary="Unlike a comment",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the comment to like",
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Unlike successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unlike successfully.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Already Unlike",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Already Unlike.")
+     *         )
+     *     ),
+     * )
+     */
+    public function unlike(string $id)
+    {
         $user = User::where('account_id', auth()->user()->id)->first();
 
         $likeComment = LikeComment::where([
