@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
@@ -58,10 +60,32 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function updateUser(UpdateUserRequest $request)
     {
-        //
+      
+        $birthday = Carbon::parse($request->birthday)->format('Y-m-d');
+        
+        $data = $request->merge(['birthday' => $birthday])->all();
+      
+        $user = User::where('account_id', auth()->user()->id)->first();
+    
+         $user->update($data);
+    
+        if (!$user) {
+            return response()->json([
+                'message' => 'Failed to update user information.'
+            ], 500);
+        }
+    
+        $token = auth()->login(auth()->user());
+    
+        return response()->json([
+            'data' => $user->refresh(),
+            'token' => $token,
+            'message' => 'Update user information successfully.'
+        ], 201);
     }
+    
 
     /**
      * Remove the specified resource from storage.
@@ -95,10 +119,73 @@ class UserController extends Controller
             'message' => 'Get user successful',
         ], 200);
     }
+    /**
+     * Get the user by the provided ID with associated posts.
+     *
+     * @OA\Get(
+     *     path="/user/{id}",
+     *     tags={"User"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the user to retrieve",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="List of posts retrieved successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer", example="2"),
+     *                 @OA\Property(property="account_id", type="integer", example="4"),
+     *                 @OA\Property(property="name", type="string", example="Bùi Thúy Ngọc"),
+     *                 @OA\Property(property="sex", type="string", example="female"),
+     *                 @OA\Property(property="address", type="string", example="Hà Đông, Hà Nội, Việt Nam"),
+     *                 @OA\Property(property="birthday", type="string", example="2005-12-03"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-03-20T09:43:36.000000Z"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2024-03-20T09:43:36.000000Z"),
+     *                 @OA\Property(
+     *                     property="posts",
+     *                     type="array",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         @OA\Property(property="id", type="integer", example="7"),
+     *                         @OA\Property(property="content", type="string", example="post mới nè"),
+     *                         @OA\Property(property="user_id", type="integer", example="2"),
+     *                         @OA\Property(property="latitude", type="number", example=null),
+     *                         @OA\Property(property="longitude", type="number", example=null),
+     *                         @OA\Property(property="created_at", type="string", format="date-time", example="2024-03-30T17:07:19.000000Z"),
+     *                         @OA\Property(property="updated_at", type="string", format="date-time", example="2024-03-30T17:07:19.000000Z")
+     *                     )
+     *                 )
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Get user successful")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated")
+     *         )
+     *     )
+     * )
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
 
-    public function getUserById(string $id)
+    public function getUserById(string $id, Request $request)
     {
-        $user = User::with('posts')->find($id);
+        $user = User::with(['followers', 'following', "posts" => function ($d) {
+            $d->with(["user", 'likes',  'comments' => function ($query) {
+                $query->orderBy('created_at', 'asc')->with('likes');
+            }]);
+        }])->find($id);
 
         return response()->json([
             'data' => $user,

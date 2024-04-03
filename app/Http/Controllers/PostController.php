@@ -26,6 +26,70 @@ class PostController extends Controller
      *  order_by
      * }
      */
+    /**
+     * Retrieve a list of posts based on specified criteria.
+     *
+     * This endpoint allows you to retrieve a list of posts based on optional query parameters such as user ID, limit, offset, and order by.
+     *
+     * @OA\Get(
+     *     path="/posts",
+     *     tags={"Post"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="user_id",
+     *         in="query",
+     *         description="ID of the user whose posts to retrieve (optional)",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="limit",
+     *         in="query",
+     *         description="Maximum number of posts to retrieve (optional)",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="offset",
+     *         in="query",
+     *         description="Number of posts to skip (optional)",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="order_by",
+     *         in="query",
+     *         description="Ordering of posts (optional, default: desc)",
+     *         @OA\Schema(type="string", enum={"asc", "desc"})
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="List of posts retrieved successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="data", type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      @OA\Property(property="id", type="integer", example="1"),
+     *                      @OA\Property(property="user_id", type="integer", example="1"),
+     *                      @OA\Property(property="content", type="string", example="Bui Thuy Ngoc rat xinh dep=))"),
+     *                      @OA\Property(property="created_at", type="string", format="date-time", example="2024-03-26T12:00:00Z"),
+     *                      @OA\Property(property="updated_at", type="string", format="date-time", example="2024-03-26T12:00:00Z")
+     *                  )
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Query successfully.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated")
+     *         )
+     *     )
+     * )
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
     public function listPost(Request $request)
     {
         $query = $request->query();
@@ -44,7 +108,7 @@ class PostController extends Controller
 
         if (isset($query['user_id'])) {
             $postsQuery->where([
-                'userId' => $query['user_id']
+                'user_id' => $query['user_id']
             ]);
         }
 
@@ -270,15 +334,16 @@ class PostController extends Controller
 
                 $account->delete();
 
-                return response()->json(['message' => 'Account deleted successfully'], 201);
+                return response()->json(['message' => 'Post deleted successfully'], 201);
             } else {
                 return response()->json(['message' => 'Post no longer exist..'], 404);
             }
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to delete account'], 500);
+            return response()->json(['message' => 'Failed to post account'], 500);
         }
     }
 
+  
     public function getPostById(Request $request)
     {
         $post = Post::find($request->id);

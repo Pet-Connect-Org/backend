@@ -34,6 +34,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/user/me', [UserController::class, 'getUserByAccessToken']);
 
+    Route::post('/user', [UserController::class, 'updateUser']);
+
     /*      ACCOUNT       */
     Route::post('/account/change_password/{id}', [AccountController::class, 'changePassword']);
 

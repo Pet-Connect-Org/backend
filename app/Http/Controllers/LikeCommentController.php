@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\LikeComment;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class LikeCommentController extends Controller
 {
@@ -30,11 +29,19 @@ class LikeCommentController extends Controller
      *         response=201,
      *         description="Like successfully",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Like successfully.")
+     *             @OA\Property(property="message", type="string", example="Like successfully."),
+     *                 @OA\Property(property="data", type="object",
+     *                  @OA\Property(property="id", type="integer", example="1"),
+     *                  @OA\Property(property="user_id", type="integer", example="1"),
+     *                  @OA\Property(property="comment_id", type="integer", example="1"),
+     *                  @OA\Property(property="created_at", type="string", format="date-time", example="2024-03-26T12:00:00Z"),
+     *                  @OA\Property(property="updated_at", type="string", format="date-time", example="2024-03-26T12:00:00Z")
+     *             )
+     *         )
      *         )
      *     ),
      *     @OA\Response(
-     *         response=404,
+     *         response=400,
      *         description="Already like",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Already like.")
@@ -54,15 +61,16 @@ class LikeCommentController extends Controller
 
         if ($isLiked) {
             return response()->json([
-                'message' => 'Already like.'
-            ], 404);
+                'message' => 'Already like.',
+            ], 400);
         } else {
-            LikeComment::create([
+            $like = LikeComment::create([
                 'user_id' => $user->id,
                 'comment_id' => $id
             ]);
             return response()->json([
-                'message' => 'Like successfully.'
+                'message' => 'Like successfully.',
+                'data' => $like
             ], 201);
         }
     }
@@ -87,11 +95,18 @@ class LikeCommentController extends Controller
      *         response=201,
      *         description="Unlike successfully",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Unlike successfully.")
+     *             @OA\Property(property="message", type="string", example="Unlike successfully."),
+     *                @OA\Property(property="data", type="object",
+     *                  @OA\Property(property="id", type="integer", example="1"),
+     *                  @OA\Property(property="user_id", type="integer", example="1"),
+     *                  @OA\Property(property="comment_id", type="integer", example="1"),
+     *                  @OA\Property(property="created_at", type="string", format="date-time", example="2024-03-26T12:00:00Z"),
+     *                  @OA\Property(property="updated_at", type="string", format="date-time", example="2024-03-26T12:00:00Z")
+     *             )
      *         )
      *     ),
      *     @OA\Response(
-     *         response=404,
+     *         response=400,
      *         description="Already Unlike",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Already Unlike.")
@@ -112,12 +127,13 @@ class LikeCommentController extends Controller
             $likeComment->delete();
 
             return response()->json([
-                'message' => 'Unlike successfully.'
+                'message' => 'Unlike successfully.',
+                'data' => $likeComment
             ], 201);
         } else {
             return response()->json([
                 'message' => 'Already unlike.'
-            ], 404);
+            ], 400);
         }
     }
 }
