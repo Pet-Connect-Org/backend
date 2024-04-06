@@ -1086,6 +1086,162 @@
                 ]
             }
         },
+        "/pet_type": {
+            "get": {
+                "tags": [
+                    "Pet Type"
+                ],
+                "summary": "List all pet types",
+                "operationId": "9b83d29865cfa660f952f0ef4ccab177",
+                "responses": {
+                    "200": {
+                        "description": "List of all pet types",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "List all pet types success."
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": "1"
+                                                    },
+                                                    "type": {
+                                                        "type": "string",
+                                                        "example": "dog"
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "example": "image_url"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "German Shepherd"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-03-26T12:00:00Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-03-26T12:00:00Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Pet Type"
+                ],
+                "summary": "Create a new pet type",
+                "operationId": "feb6c6735862d824974caa8c742fc554",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreatePetTypeRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pet type created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pet type created successfully."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "image": {
+                                                    "type": "string",
+                                                    "example": "image_url"
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "example": "dog"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "German Shepherd"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-04-06T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-04-06T12:00:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/posts": {
             "get": {
                 "tags": [
@@ -1734,6 +1890,28 @@
                 },
                 "type": "object"
             },
+            "CreatePetTypeRequest": {
+                "required": [
+                    "image",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "image": {
+                        "type": "string",
+                        "example": "Link"
+                    },
+                    "type": {
+                        "type": "number",
+                        "example": "cat"
+                    },
+                    "name": {
+                        "type": "number",
+                        "example": "Americal curl"
+                    }
+                },
+                "type": "object"
+            },
             "PostRequest": {
                 "required": [
                     "content"
@@ -1750,6 +1928,38 @@
                     "longitude": {
                         "type": "number",
                         "example": "106"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateUserRequest": {
+                "required": [
+                    "name",
+                    "sex",
+                    "birthday",
+                    "address"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Bui Thuy Ngoc"
+                    },
+                    "sex": {
+                        "type": "string",
+                        "enum": [
+                            "male",
+                            "female"
+                        ],
+                        "example": "female"
+                    },
+                    "birthday": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "13-02-2003"
+                    },
+                    "address": {
+                        "type": "string",
+                        "example": "Ha Dong"
                     }
                 },
                 "type": "object"

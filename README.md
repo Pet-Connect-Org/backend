@@ -53,6 +53,12 @@
 
 ---
 
+## Pet type ref
+
+[https://basepaws.com/cat-breeds](https://basepaws.com/cat-breeds)
+
+---
+
 ## Author
 
 [Bui Ngoc](https://www.facebook.com/Bui.Ngoc.1302/)

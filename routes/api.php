@@ -6,6 +6,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\LikeCommentController;
 use App\Http\Controllers\LikePostController;
+use App\Http\Controllers\PetTypeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Models\Account;
@@ -62,6 +63,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/follow/user/{id}', [FollowController::class, 'follow']);
     Route::post('/unfollow/user/{id}', [FollowController::class, 'unfollow']);
 
+    Route::get('/pet_type', [PetTypeController::class, 'listAll']);
+    Route::post('/pet_type', [PetTypeController::class, 'create']);
 });
 
 /*      AUTH       */
