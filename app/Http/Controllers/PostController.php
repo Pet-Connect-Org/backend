@@ -199,9 +199,9 @@ class PostController extends Controller
         }
 
         if ($post['user_id'] == $user->id) {
-            $updatedPost = $post->update($request->all());
+            $post->update($request->all());
             return response()->json([
-                'data' => $updatedPost,
+                'data' => $post->refresh(),
                 'message' => 'Update post successfully.'
             ], 201);
         } else {

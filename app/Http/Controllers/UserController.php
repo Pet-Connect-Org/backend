@@ -62,30 +62,30 @@ class UserController extends Controller
      */
     public function updateUser(UpdateUserRequest $request)
     {
-      
+
         $birthday = Carbon::parse($request->birthday)->format('Y-m-d');
-        
+
         $data = $request->merge(['birthday' => $birthday])->all();
-      
+
         $user = User::where('account_id', auth()->user()->id)->first();
-    
-         $user->update($data);
-    
+
+        $user->update($data);
+
         if (!$user) {
             return response()->json([
                 'message' => 'Failed to update user information.'
             ], 500);
         }
-    
+
         $token = auth()->login(auth()->user());
-    
+
         return response()->json([
             'data' => $user->refresh(),
             'token' => $token,
             'message' => 'Update user information successfully.'
         ], 201);
     }
-    
+
 
     /**
      * Remove the specified resource from storage.
@@ -181,7 +181,9 @@ class UserController extends Controller
 
     public function getUserById(string $id, Request $request)
     {
-        $user = User::with(['followers', 'following', "posts" => function ($d) {
+        $user = User::with(["pets" => function ($p) {
+            $p->with("petType");
+        }, 'followers', 'following', "posts" => function ($d) {
             $d->with(["user", 'likes',  'comments' => function ($query) {
                 $query->orderBy('created_at', 'asc')->with('likes');
             }]);

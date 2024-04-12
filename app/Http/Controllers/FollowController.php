@@ -58,8 +58,8 @@ class FollowController extends Controller
         }
 
         $isFollowing = Follow::where([
-            'user_id' => $id,
-            'following_user_id' => $user->id
+            'user_id' =>$user->id,
+            'following_user_id' => $id
         ])->first();
 
 
@@ -69,8 +69,8 @@ class FollowController extends Controller
             ], 409);
         } else {
             Follow::create([
-                'user_id' => $id,
-                'following_user_id' => $user->id
+                'user_id' =>$user->id,
+                'following_user_id' => $id
             ]);
             return response()->json([
                 'message' => 'Follow successfully.'
@@ -127,8 +127,8 @@ class FollowController extends Controller
         }
 
         $follow = Follow::where([
-            'following_user_id' => $user->id,
-            'user_id' => $id
+            'user_id' =>$user->id,
+            'following_user_id' => $id
         ])->first();
 
         if ($follow) {

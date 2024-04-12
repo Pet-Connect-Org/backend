@@ -6,6 +6,8 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\LikeCommentController;
 use App\Http\Controllers\LikePostController;
+use App\Http\Controllers\MedicalRecordController;
+use App\Http\Controllers\PetProfileController;
 use App\Http\Controllers\PetTypeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
@@ -32,9 +34,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware(['auth'])->group(function () {
     /*      USER       */
     Route::get('/user/{id}', [UserController::class, 'getUserById']);
-
     Route::get('/user/me', [UserController::class, 'getUserByAccessToken']);
-
     Route::post('/user', [UserController::class, 'updateUser']);
 
     /*      ACCOUNT       */
@@ -62,9 +62,16 @@ Route::middleware(['auth'])->group(function () {
     /*      FOLLOW      */
     Route::post('/follow/user/{id}', [FollowController::class, 'follow']);
     Route::post('/unfollow/user/{id}', [FollowController::class, 'unfollow']);
-
+    /*      PET_TYPE     */
     Route::get('/pet_type', [PetTypeController::class, 'listAll']);
     Route::post('/pet_type', [PetTypeController::class, 'create']);
+    Route::delete('/pet_type/{id}', [PetTypeController::class, 'deletePetType']);
+    /*      MEDICAL      */
+
+
+    /**     PET PROFILE        */
+    Route::post('/pet_profile', [PetProfileController::class, 'createProfile']);
+
 });
 
 /*      AUTH       */

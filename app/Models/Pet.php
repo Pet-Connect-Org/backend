@@ -5,23 +5,28 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Follow extends Model
+class Pet extends Model
 {
     use HasFactory;
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'following_user_id',
-        'user_id'
+        'user_id',
+        'name',
+        'birthday',
+        'sex',
+        'description',
+        'image',
+        'pet_type_id'
     ];
 
-    public function user() // người theo dõi
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function following() // người đang theo dõi
+    public function petType()
     {
-        return $this->belongsTo(User::class, 'following_user_id', 'id');
+        return $this->belongsTo(PetType::class, 'pet_type_id', 'id');
     }
 }

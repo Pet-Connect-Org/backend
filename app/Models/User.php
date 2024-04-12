@@ -39,11 +39,16 @@ class User extends Authenticatable
 
     public function followers() // người đang theo dõi user
     {
-        return $this->hasMany(Follow::class, 'following_user_id', 'id');
+        return $this->hasMany(Follow::class, 'following_user_id', 'id')->with('user');
     }
 
     public function following() //đang theo dõi ai đó
     {
-        return $this->hasMany(Follow::class, 'user_id', 'id');
+        return $this->hasMany(Follow::class, 'user_id', 'id')->with('following');
+    }
+
+    public function pets()
+    {
+        return $this->hasMany(Pet::class, 'user_id', 'id');
     }
 }

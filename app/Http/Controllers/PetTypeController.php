@@ -109,4 +109,64 @@ class PetTypeController extends Controller
             ], 400);
         }
     }
+
+
+    /**
+     * Delete post
+     *
+     * @OA\Delete(
+     *     path="/pet_type/{id}",
+     *     tags={"Post"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the Pet type to delete",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int64"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Pet type deleted successfully.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Delete Pet type successfully.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Pet type not found.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Pet type not found.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Not authorized to delete this Pet type.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Not authorized to delete this post.")
+     *         )
+     *     )
+     * )
+     *
+     * @param string $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+     public function deletePost(string $id)
+     {
+         try {
+             $petType = PetType::find($id);
+             if ($petType) {
+                 $petType->delete();
+                 return response()->json(['message' => 'Pet type deleted successfully'], 201);
+             } else {
+                 return response()->json(['message' => 'Pet type no longer exist..'], 404);
+             }
+         } catch (\Exception $e) {
+             return response()->json(['message' => 'Failed to delete Pet type'], 500);
+         }
+     }
 }
