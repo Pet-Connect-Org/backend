@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Post\PostRequest;
+use App\Models\Image;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -113,7 +114,7 @@ class PostController extends Controller
         }
 
         $postList = $postsQuery->orderBy('created_at', $orderBy)
-            ->with(['user', 'likes', 'comments' => function ($query) {
+            ->with(['images', 'user', 'likes', 'comments' => function ($query) {
                 $query->orderBy('created_at', 'asc')->with('likes');
             }])
             ->skip($offset)
@@ -126,9 +127,8 @@ class PostController extends Controller
         ], 200);
     }
 
-
     /**
-     * Update comment
+     * Update a post.
      *
      * @OA\Put(
      *     path="/post/{id}",
@@ -137,7 +137,7 @@ class PostController extends Controller
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="ID of the post to update",
+     *         description="ID of the post to be updated",
      *         required=true,
      *         @OA\Schema(
      *             type="integer",
@@ -154,16 +154,22 @@ class PostController extends Controller
      *         )
      *     ),
      *     @OA\Response(
-     *         response=201,
-     *         description="post updated successfully.",
+     *         response=200,
+     *         description="Post updated successfully.",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Update post successfully."),
+     *             @OA\Property(property="message", type="string", example="Post updated successfully."),
      *             @OA\Property(property="data", type="object",
      *                  @OA\Property(property="id", type="integer", example="1"),
      *                  @OA\Property(property="user_id", type="integer", example="1"),
      *                  @OA\Property(property="content", type="string", example="Bui Thuy Ngoc rat xinh dep=))"),
+     *                  @OA\Property(property="latitude", type="number", format="float", example="20.0"),
+     *                  @OA\Property(property="longitude", type="number", format="float", example="106.0"),
      *                  @OA\Property(property="created_at", type="string", format="date-time", example="2024-03-26T12:00:00Z"),
-     *                  @OA\Property(property="updated_at", type="string", format="date-time", example="2024-03-26T12:00:00Z")
+     *                  @OA\Property(property="updated_at", type="string", format="date-time", example="2024-03-26T12:00:00Z"),
+     *                  @OA\Property(property="images", type="array", @OA\Items(
+     *                      type="object",
+     *                      @OA\Property(property="link", type="string", example="http://example.com/image.png")
+     *                  ))
      *             )
      *         )
      *     ),
@@ -176,16 +182,18 @@ class PostController extends Controller
      *     ),
      *     @OA\Response(
      *         response=403,
-     *         description="Not authorized to update this post.",
+     *         description="Unauthorized to update this post.",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Not authorized to update this post.")
+     *             @OA\Property(property="message", type="string", example="Unauthorized to perform this action.")
      *         )
      *     )
      * )
      *
-     * @param \Illuminate\Http\PostRequest $request
+     * @param \Illuminate\Http\Request $request
+     * @param string $id
      * @return \Illuminate\Http\JsonResponse
      */
+
 
     public function updatePost(string $id, PostRequest $request)
     {
@@ -199,9 +207,25 @@ class PostController extends Controller
         }
 
         if ($post['user_id'] == $user->id) {
-            $post->update($request->all());
+            $post->update([
+                'content' => $request->input('content'),
+                'latitude' => $request->input('latitude'),
+                'longitude' => $request->input('longitude'),
+            ]);
+
+            Image::where('post_id', $id)->delete();
+
+            $newImages = $request->input('images', []);
+            foreach ($newImages as $link) {
+                Image::create([
+                    'post_id' => $post->id,
+                    'link' => $link
+                ]);
+            }
+            $post->load('images');
+
             return response()->json([
-                'data' => $post->refresh(),
+                'data' => $post,
                 'message' => 'Update post successfully.'
             ], 201);
         } else {
@@ -271,12 +295,24 @@ class PostController extends Controller
             'user_id' => $user->id
         ]);
 
+        $images = $request->input('images', []);
+
+        foreach ($images as $link) {
+            Image::create([
+                'post_id' => $post->id,
+                'link' => $link
+            ]);
+        }
+
+        $post->load('images');
+
         if ($post) {
             return response()->json([
                 'data' => $post,
                 'message' => 'Create new post successfully.'
             ], 201);
         }
+
         return response()->json([
             'message' => 'Create new post failed.'
         ], 500);
@@ -343,7 +379,7 @@ class PostController extends Controller
         }
     }
 
-  
+
     public function getPostById(Request $request)
     {
         $post = Post::find($request->id);

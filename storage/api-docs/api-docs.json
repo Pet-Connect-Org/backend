@@ -1440,13 +1440,13 @@
                 "tags": [
                     "Post"
                 ],
-                "summary": "Update comment",
+                "summary": "Update a post.",
                 "operationId": "30d1e3d1eb3b7f32bf66dc8e9e442f17",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID of the post to update",
+                        "description": "ID of the post to be updated",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -1465,15 +1465,15 @@
                     }
                 },
                 "responses": {
-                    "201": {
-                        "description": "post updated successfully.",
+                    "200": {
+                        "description": "Post updated successfully.",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Update post successfully."
+                                            "example": "Post updated successfully."
                                         },
                                         "data": {
                                             "properties": {
@@ -1489,6 +1489,16 @@
                                                     "type": "string",
                                                     "example": "Bui Thuy Ngoc rat xinh dep=))"
                                                 },
+                                                "latitude": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": "20.0"
+                                                },
+                                                "longitude": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": "106.0"
+                                                },
                                                 "created_at": {
                                                     "type": "string",
                                                     "format": "date-time",
@@ -1498,6 +1508,18 @@
                                                     "type": "string",
                                                     "format": "date-time",
                                                     "example": "2024-03-26T12:00:00Z"
+                                                },
+                                                "images": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "link": {
+                                                                "type": "string",
+                                                                "example": "http://example.com/image.png"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
                                                 }
                                             },
                                             "type": "object"
@@ -1525,14 +1547,14 @@
                         }
                     },
                     "403": {
-                        "description": "Not authorized to update this post.",
+                        "description": "Unauthorized to update this post.",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Not authorized to update this post."
+                                            "example": "Unauthorized to perform this action."
                                         }
                                     },
                                     "type": "object"
@@ -1996,6 +2018,15 @@
                     "content": {
                         "type": "string",
                         "example": "Bui Thuy Ngoc rat xinh dep=))"
+                    },
+                    "images": {
+                        "description": "An array of image URLs",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "url",
+                            "example": "http://example.com/image.jpg"
+                        }
                     },
                     "latitude": {
                         "type": "number",

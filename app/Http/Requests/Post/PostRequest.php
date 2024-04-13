@@ -8,6 +8,16 @@ use Illuminate\Foundation\Http\FormRequest;
  * @OA\Schema(
  *     required={"content"},
  *     @OA\Property(property="content", type="string", example="Bui Thuy Ngoc rat xinh dep=))"),
+*     @OA\Property(
+ *         property="images",
+ *         type="array",
+ *         description="An array of image URLs",
+ *         @OA\Items(
+ *             type="string",
+ *             format="url",
+ *             example="http://example.com/image.jpg"
+ *         )
+ *     ),
  *     @OA\Property(property="latitude", type="number", example="20"),
  *     @OA\Property(property="longitude", type="number", example="106")
  * )
