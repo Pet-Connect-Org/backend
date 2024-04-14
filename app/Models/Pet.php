@@ -29,4 +29,7 @@ class Pet extends Model
     {
         return $this->belongsTo(PetType::class, 'pet_type_id', 'id');
     }
+    public function med() {
+        return $this->hasOne(MedicalRecord::class, 'pet_id', 'id');
+    }
 }

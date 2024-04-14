@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AllergyController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FollowController;
@@ -70,7 +71,13 @@ Route::middleware(['auth'])->group(function () {
 
 
     /**     PET PROFILE        */
+    Route::get('/pet_profile/{id}', [PetProfileController::class, 'getPetProfileByPetId']);
     Route::post('/pet_profile', [PetProfileController::class, 'createProfile']);
+
+    /**     Allergy          */
+    Route::post('/allergies', [AllergyController::class, 'create']);
+    Route::put('/allergies/{id}', [AllergyController::class, 'update']);
+    Route::delete('/allergies/{id}', [AllergyController::class, 'delete']);
 
 });
 

@@ -14,4 +14,13 @@ class MedicalRecord extends Model
     protected $fillable = [
         'favoriteFood', 'isFriendlyWithDog', 'isFriendlyWithCat', 'isCleanProperly', 'isHyperactive', 'isShy', 'isFriendlyWithKid', 'pet_id'
     ];
+
+    public function allergies()
+    {
+        return $this->hasMany(Allergy::class, 'medical_record_id', 'id');
+    }
+
+    public function pet() {
+        return $this->belongsTo(Pet::class, 'pet_id', 'id');
+    }
 }

@@ -16,6 +16,252 @@
         }
     ],
     "paths": {
+        "/allergies": {
+            "post": {
+                "tags": [
+                    "Allergies"
+                ],
+                "summary": "Create a new allergy",
+                "operationId": "e5d371214ae67e4bdadc720784fa3b38",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "description",
+                                    "medical_record_id"
+                                ],
+                                "properties": {
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Peanut allergy"
+                                    },
+                                    "medical_record_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Allergy created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "OK."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 123
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Peanut allergy"
+                                                },
+                                                "medical_record_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to create allergy",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Failed."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/allergies/{id}": {
+            "put": {
+                "tags": [
+                    "Allergies"
+                ],
+                "summary": "Update an existing allergy",
+                "operationId": "8b1006f7401558373319e0b852627d8f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Allergy ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "description",
+                                    "medical_record_id"
+                                ],
+                                "properties": {
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Updated description"
+                                    },
+                                    "medical_record_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Allergy updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Allergy updated successfully."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 123
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Peanut allergy"
+                                                },
+                                                "medical_record_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Allergy not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Allergy not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Allergies"
+                ],
+                "summary": "Delete an allergy",
+                "operationId": "3f9e3bedda3cd09fa921c42ed810419b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Allergy ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Allergy deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Allergy deleted successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Allergy not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Allergy not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/auth/sign-up": {
             "post": {
                 "tags": [
@@ -1071,6 +1317,192 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Already Unlike."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/pet_profile/{id}": {
+            "get": {
+                "tags": [
+                    "Pet Profile"
+                ],
+                "operationId": "8cd021222f6b748021c5bea642d7f293",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the pet to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pet profile retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Get pet profile successful"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "pet_type_id": {
+                                                    "type": "integer",
+                                                    "example": 4
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 4
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Bùi Thúy Ngọc"
+                                                },
+                                                "sex": {
+                                                    "type": "string",
+                                                    "example": "female"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Rất xinh đẹp tuyệt vời"
+                                                },
+                                                "birthday": {
+                                                    "type": "string",
+                                                    "example": "2005-12-03"
+                                                },
+                                                "image": {
+                                                    "type": "string",
+                                                    "example": "https://demo/demo-image.png"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-03-20T09:43:36.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-03-20T09:43:36.000000Z"
+                                                },
+                                                "med": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 6
+                                                        },
+                                                        "pet_id": {
+                                                            "type": "integer",
+                                                            "example": 37
+                                                        },
+                                                        "favoriteFood": {
+                                                            "type": "string",
+                                                            "example": "pate"
+                                                        },
+                                                        "isFriendlyWithDog": {
+                                                            "type": "boolean",
+                                                            "example": false
+                                                        },
+                                                        "isFriendlyWithCat": {
+                                                            "type": "boolean",
+                                                            "example": true
+                                                        },
+                                                        "isCleanProperly": {
+                                                            "type": "boolean",
+                                                            "example": true
+                                                        },
+                                                        "isHyperactive": {
+                                                            "type": "boolean",
+                                                            "example": true
+                                                        },
+                                                        "isFriendlyWithKid": {
+                                                            "type": "boolean",
+                                                            "example": true
+                                                        },
+                                                        "isShy": {
+                                                            "type": "boolean",
+                                                            "example": false
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2024-04-14T03:03:38.000000Z"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2024-04-14T03:03:38.000000Z"
+                                                        },
+                                                        "allergies": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "integer",
+                                                                        "example": 7
+                                                                    },
+                                                                    "description": {
+                                                                        "type": "string",
+                                                                        "example": "Pollen allergy"
+                                                                    },
+                                                                    "medical_record_id": {
+                                                                        "type": "integer",
+                                                                        "example": 2
+                                                                    },
+                                                                    "created_at": {
+                                                                        "type": "string",
+                                                                        "format": "date-time",
+                                                                        "example": "2024-03-30T17:07:19.000000Z"
+                                                                    },
+                                                                    "updated_at": {
+                                                                        "type": "string",
+                                                                        "format": "date-time",
+                                                                        "example": "2024-03-30T17:07:19.000000Z"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
                                         }
                                     },
                                     "type": "object"
