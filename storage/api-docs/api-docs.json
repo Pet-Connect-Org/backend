@@ -852,6 +852,254 @@
                 ]
             }
         },
+        "/deworm_history": {
+            "post": {
+                "tags": [
+                    "Deworm History"
+                ],
+                "summary": "Create a new deworm history record",
+                "operationId": "49eb8a12a0c99e6596832bca78a37703",
+                "requestBody": {
+                    "description": "Pass deworm history data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "medical_record_id",
+                                    "time"
+                                ],
+                                "properties": {
+                                    "medical_record_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Routine deworming"
+                                    },
+                                    "time": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-04-14"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Deworm history created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Deworm history created successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "medical_record_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Routine deworming"
+                                                },
+                                                "time": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-04-14"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/deworm_history/{id}": {
+            "put": {
+                "tags": [
+                    "Deworm History"
+                ],
+                "summary": "Update an existing deworm history record",
+                "operationId": "ad133af9f109ba93a1d36dd98a167d70",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Deworm History ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass deworm history data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "medical_record_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Updated routine deworming"
+                                    },
+                                    "time": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-05-14"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Deworm history updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Deworm history updated successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "medical_record_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Updated routine deworming"
+                                                },
+                                                "time": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-05-14"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Deworm history not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Deworm history not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Deworm History"
+                ],
+                "summary": "Delete a deworm history record",
+                "operationId": "deleteDewormHistory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Deworm History ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deworm history deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Deworm history deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Deworm history not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Deworm history not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/follow/user/{id}": {
             "post": {
                 "tags": [
@@ -1477,6 +1725,90 @@
                                                                         "type": "string",
                                                                         "format": "date-time",
                                                                         "example": "2024-03-30T17:07:19.000000Z"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "weights": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "medical_record_id": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "weight": {
+                                                                        "type": "number",
+                                                                        "format": "float",
+                                                                        "example": 20.5
+                                                                    },
+                                                                    "description": {
+                                                                        "type": "string",
+                                                                        "example": "Healthy weight"
+                                                                    },
+                                                                    "time": {
+                                                                        "type": "string",
+                                                                        "format": "date-time",
+                                                                        "example": "2024-04-14"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "deworms": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "medical_record_id": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "description": {
+                                                                        "type": "string",
+                                                                        "example": "Deworm"
+                                                                    },
+                                                                    "time": {
+                                                                        "type": "string",
+                                                                        "format": "date-time",
+                                                                        "example": "2024-04-14"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "vaccinations": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "medical_record_id": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "description": {
+                                                                        "type": "string",
+                                                                        "example": "vaccinations ne"
+                                                                    },
+                                                                    "name": {
+                                                                        "type": "string",
+                                                                        "example": "vaccinations"
+                                                                    },
+                                                                    "time": {
+                                                                        "type": "string",
+                                                                        "format": "date-time",
+                                                                        "example": "2024-04-14"
                                                                     }
                                                                 },
                                                                 "type": "object"
@@ -2297,6 +2629,592 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/vaccination_history": {
+            "post": {
+                "tags": [
+                    "Vaccination History"
+                ],
+                "summary": "Create a new vaccination history record",
+                "operationId": "631261ae2906c0c40f2c2691b838cf6a",
+                "requestBody": {
+                    "description": "Pass vaccination history data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "medical_record_id",
+                                    "time",
+                                    "name",
+                                    "description"
+                                ],
+                                "properties": {
+                                    "medical_record_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Routine vaccination"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Routine vaccination"
+                                    },
+                                    "time": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-04-14"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Vaccination history created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vaccination history created successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "medical_record_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Routine vaccination"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Routine vaccination"
+                                                },
+                                                "time": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-04-14"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/vaccination_history/{id}": {
+            "put": {
+                "tags": [
+                    "Vaccination History"
+                ],
+                "summary": "Update an existing vaccination history record",
+                "operationId": "7c23a0332194cf75f10caa7c09ca9bfe",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Vaccination History ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass vaccination history data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "medical_record_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Updated routine vaccination"
+                                    },
+                                    "time": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-05-14"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Vaccination history updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vaccination history updated successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "medical_record_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Updated routine vaccination"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Updated routine vaccination"
+                                                },
+                                                "time": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-05-14"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Vaccination history not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vaccination history not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Vaccination History"
+                ],
+                "summary": "Delete a vaccination history record",
+                "operationId": "deleteVaccinationHistory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Vaccination History ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Vaccination history deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vaccination history deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Vaccination history not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vaccination history not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/weight_history": {
+            "post": {
+                "tags": [
+                    "Weight History"
+                ],
+                "summary": "Create a new weight history record",
+                "operationId": "storeWeightHistory",
+                "requestBody": {
+                    "description": "Pass weight history data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "medical_record_id",
+                                    "weight",
+                                    "time"
+                                ],
+                                "properties": {
+                                    "medical_record_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "weight": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 20.5
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Healthy weight"
+                                    },
+                                    "time": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-04-14"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Weight history created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Weight history created successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "medical_record_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "weight": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 20.5
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Healthy weight"
+                                                },
+                                                "time": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-04-14"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation errors"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "weight": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The weight field is required."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/weight_history/{id}": {
+            "put": {
+                "tags": [
+                    "Weight History"
+                ],
+                "summary": "Update an existing weight history record",
+                "operationId": "updateWeightHistory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Weight History ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass weight history data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "medical_record_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "weight": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 22
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Gained weight after diet"
+                                    },
+                                    "time": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-05-14T12:00:00Z"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Weight history updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Weight history updated successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "medical_record_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "weight": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 20.5
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Healthy weight"
+                                                },
+                                                "time": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-04-14"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Weight history not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Weight history not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Weight History"
+                ],
+                "summary": "Delete a weight history record",
+                "operationId": "deleteWeightHistory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Weight History ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Weight history deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Weight history deleted successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "medical_record_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "weight": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 20.5
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Healthy weight"
+                                                },
+                                                "time": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-04-14"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Weight history not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Weight history not found"
                                         }
                                     },
                                     "type": "object"

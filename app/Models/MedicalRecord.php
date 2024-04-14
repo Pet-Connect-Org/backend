@@ -19,8 +19,24 @@ class MedicalRecord extends Model
     {
         return $this->hasMany(Allergy::class, 'medical_record_id', 'id');
     }
+    
+    public function weights()
+    {
+        return $this->hasMany(WeightHistory::class, 'medical_record_id', 'id');
+    }
 
-    public function pet() {
+    public function deworms()
+    {
+        return $this->hasMany(DewormHistory::class, 'medical_record_id', 'id');
+    }
+    
+    public function vaccinations()
+    {
+        return $this->hasMany(VaccinationHistory::class, 'medical_record_id', 'id');
+    }
+
+    public function pet()
+    {
         return $this->belongsTo(Pet::class, 'pet_id', 'id');
     }
 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AllergyController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\DewormHistoryController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\LikeCommentController;
 use App\Http\Controllers\LikePostController;
@@ -12,8 +13,11 @@ use App\Http\Controllers\PetProfileController;
 use App\Http\Controllers\PetTypeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VaccinationHistoryController;
+use App\Http\Controllers\WeightHistoryController;
 use App\Models\Account;
 use App\Models\LikePost;
+use App\Models\VaccinationHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -79,6 +83,20 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/allergies/{id}', [AllergyController::class, 'update']);
     Route::delete('/allergies/{id}', [AllergyController::class, 'delete']);
 
+    /**     Weight History       */
+    Route::post('/weight_history', [WeightHistoryController::class, 'store']);
+    Route::put('/weight_history/{id}', [WeightHistoryController::class, 'update']);
+    Route::delete('/weight_history/{id}', [WeightHistoryController::class, 'delete']);
+    
+    /**     Deworm History       */
+    Route::post('/deworm_history', [DewormHistoryController::class, 'store']);
+    Route::put('/deworm_history/{id}', [DewormHistoryController::class, 'update']);
+    Route::delete('/deworm_history/{id}', [DewormHistoryController::class, 'delete']);
+    
+    /**     Vaccination History       */
+    Route::post('/vaccination_history', [VaccinationHistoryController::class, 'store']);
+    Route::put('/vaccination_history/{id}', [VaccinationHistoryController::class, 'update']);
+    Route::delete('/vaccination_history/{id}', [VaccinationHistoryController::class, 'delete']);
 });
 
 /*      AUTH       */

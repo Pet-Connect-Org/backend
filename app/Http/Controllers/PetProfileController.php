@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PetProfile\CreaatePetProfileRequest;
 use App\Models\Pet;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class PetProfileController extends Controller
@@ -91,8 +90,43 @@ class PetProfileController extends Controller
      *                              @OA\Property(property="medical_record_id", type="integer", example=2),
      *                              @OA\Property(property="created_at", type="string", format="date-time", example="2024-03-30T17:07:19.000000Z"),
      *                              @OA\Property(property="updated_at", type="string", format="date-time", example="2024-03-30T17:07:19.000000Z")
+     *                          )
+     *                      ),
+     *                      @OA\Property(
+     *                          property="weights",
+     *                          type="array",
+     *                          @OA\Items(
+     *                              type="object",
+     *                          @OA\Property(property="id", type="integer", example=1),
+     *                          @OA\Property(property="medical_record_id", type="integer", example=1),
+     *                          @OA\Property(property="weight", type="number", format="float", example=20.5),
+     *                          @OA\Property(property="description", type="string", example="Healthy weight"),
+     *                          @OA\Property(property="time", type="string", format="date-time", example="2024-04-14")
      *                        )
-     *                   )
+     *                      ),
+     *                      @OA\Property(
+     *                          property="deworms",
+     *                          type="array",
+     *                          @OA\Items(
+     *                              type="object",
+     *                          @OA\Property(property="id", type="integer", example=1),
+     *                          @OA\Property(property="medical_record_id", type="integer", example=1),
+     *                          @OA\Property(property="description", type="string", example="Deworm"),
+     *                          @OA\Property(property="time", type="string", format="date-time", example="2024-04-14")
+     *                        )
+     *                      ),
+     *                      @OA\Property(
+     *                          property="vaccinations",
+     *                          type="array",
+     *                          @OA\Items(
+     *                              type="object",
+     *                          @OA\Property(property="id", type="integer", example=1),
+     *                          @OA\Property(property="medical_record_id", type="integer", example=1),
+     *                          @OA\Property(property="description", type="string", example="vaccinations ne"),
+     *                          @OA\Property(property="name", type="string", example="vaccinations"),
+     *                          @OA\Property(property="time", type="string", format="date-time", example="2024-04-14")
+     *                        )
+     *                      )
      *                )
      *             )
      *         )
@@ -114,7 +148,7 @@ class PetProfileController extends Controller
     public function getPetProfileByPetId(String $id)
     {
         $pet = Pet::with(['med' => function ($m) {
-            $m->with('allergies');
+            $m->with(['allergies', 'weights', 'deworms', 'vaccinations']);
         }])->find($id);
         return response()->json([
             'message' => "Success",
