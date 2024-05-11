@@ -147,7 +147,7 @@ class PetProfileController extends Controller
 
     public function getPetProfileByPetId(String $id)
     {
-        $pet = Pet::with(['med' => function ($m) {
+        $pet = Pet::with(['petType', 'med' => function ($m) {
             $m->with(['allergies', 'weights', 'deworms', 'vaccinations']);
         }])->find($id);
         return response()->json([

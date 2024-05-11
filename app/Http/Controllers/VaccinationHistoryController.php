@@ -44,6 +44,7 @@ class VaccinationHistoryController extends Controller
      */
     public function store(Request $request)
     {
+       
         $validator = Validator::make($request->all(), [
             'medical_record_id' => 'required|integer|exists:medical_records,id',
             'description' => 'string',
@@ -53,8 +54,7 @@ class VaccinationHistoryController extends Controller
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
-        
-
+        }
         $vaccinationHistory = VaccinationHistory::create($validator->validated());
 
         return response()->json([
@@ -109,6 +109,7 @@ class VaccinationHistoryController extends Controller
      *     )
      * )
      */
+
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [

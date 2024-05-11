@@ -62,3 +62,6 @@
 ## Author
 
 [Bui Ngoc](https://www.facebook.com/Bui.Ngoc.1302/)
+
+-   [ ] Update Pet Type
+-   [ ] Update MedicalRecord

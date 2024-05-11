@@ -22,17 +22,17 @@ class MedicalRecord extends Model
     
     public function weights()
     {
-        return $this->hasMany(WeightHistory::class, 'medical_record_id', 'id');
+        return $this->hasMany(WeightHistory::class, 'medical_record_id', 'id')->orderBy('time', 'asc');
     }
 
     public function deworms()
     {
-        return $this->hasMany(DewormHistory::class, 'medical_record_id', 'id');
+        return $this->hasMany(DewormHistory::class, 'medical_record_id', 'id')->orderBy('time', 'desc');
     }
     
     public function vaccinations()
     {
-        return $this->hasMany(VaccinationHistory::class, 'medical_record_id', 'id');
+        return $this->hasMany(VaccinationHistory::class, 'medical_record_id', 'id')->orderBy('time', 'desc');
     }
 
     public function pet()

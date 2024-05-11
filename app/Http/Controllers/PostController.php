@@ -292,6 +292,8 @@ class PostController extends Controller
 
         $post = Post::create([
             'content' => $request->input('content'),
+            'latitude' => $request->input('latitude'),
+            'longitude' => $request->input('longitude'),
             'user_id' => $user->id
         ]);
 

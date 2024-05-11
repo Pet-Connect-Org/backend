@@ -184,7 +184,7 @@ class UserController extends Controller
         $user = User::with(["pets" => function ($p) {
             $p->with("petType");
         }, 'followers', 'following', "posts" => function ($d) {
-            $d->with(["user", 'likes',  'comments' => function ($query) {
+            $d->with(["user", 'likes', 'images',  'comments' => function ($query) {
                 $query->orderBy('created_at', 'asc')->with('likes');
             }]);
         }])->find($id);
