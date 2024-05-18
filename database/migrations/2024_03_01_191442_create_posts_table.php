@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('content', 255);
+            $table->text('content', 255)->charset('utf8mb4')->collation('utf8mb4_unicode_ci');
             $table->unsignedBigInteger('user_id');
             $table->float('latitude')->nullable();
             $table->float('longitude')->nullable();

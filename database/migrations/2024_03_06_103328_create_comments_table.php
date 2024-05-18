@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->string('content');
+            $table->text('content', 255)->charset('utf8mb4')->collation('utf8mb4_unicode_ci');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('post_id');
             $table->timestamps();

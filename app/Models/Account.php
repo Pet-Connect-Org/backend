@@ -15,7 +15,16 @@ class Account extends Authenticatable implements JWTSubject
         'email',
         'password',
         'role',
-        'remember_token'
+        'remember_token',
+        "provider",
+        "type",
+        "providerAccountId",
+        "access_token",
+        "token_type",
+        // "scope",
+        // "id_token",
+        'isActived',
+        "expires_at",
     ];
     protected $casts = [
         'email_verified_at' => 'datetime',

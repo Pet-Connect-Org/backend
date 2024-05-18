@@ -186,8 +186,9 @@ class UserController extends Controller
         }, 'followers', 'following', "posts" => function ($d) {
             $d->with(["user", 'likes', 'images',  'comments' => function ($query) {
                 $query->orderBy('created_at', 'asc')->with('likes');
-            }]);
-        }])->find($id);
+            }])->orderBy('created_at', 'desc');
+        }])
+        ->find($id);
 
         return response()->json([
             'data' => $user,

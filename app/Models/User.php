@@ -14,7 +14,8 @@ class User extends Authenticatable
         'sex',
         'birthday',
         'address',
-        'account_id'
+        'account_id',
+        "image"
     ];
 
     public function account()

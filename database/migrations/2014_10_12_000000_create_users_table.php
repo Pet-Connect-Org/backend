@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('account_id');
             $table->text('name');
-            $table->text('sex');
-            $table->text('address');
-            $table->date('birthday');
+            $table->string('sex')->default('female'); 
+            $table->text('address')->nullable();
+            $table->text('image')->nullable();
+            $table->date('birthday')->nullable();
             $table->timestamps();
         });
     }

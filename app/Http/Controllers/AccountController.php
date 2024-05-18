@@ -26,7 +26,7 @@ class AccountController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email|unique:accounts,email',
+            'email' => 'required|email',
             'password' => [
                 'required',
                 'min:6',

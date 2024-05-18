@@ -16,16 +16,16 @@ class UserSeeder extends Seeder
         //
         User::insert([
             [
-                'id' => 1,
-                'account_id' => 1,
+                'id' => 5,
+                'account_id' => 5,
                 'name' => 'Bui Thuy Ngoc',
                 'sex' => 'female',
                 'address' => 'Hà Đông, Hà Nội',
                 'birthday' => '2003-02-13'
             ],
             [
-                'id' => 2,
-                'account_id' => 2,
+                'id' => 6,
+                'account_id' => 6,
                 'name' => 'Bui Thuy Anh',
                 'sex' => 'female',
                 'address' => 'Hà Đông, Hà Nội',

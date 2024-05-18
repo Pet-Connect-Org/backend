@@ -102,6 +102,7 @@ Route::middleware(['auth'])->group(function () {
 /*      AUTH       */
 Route::post('/auth/sign-up', [AuthController::class, 'signUp']);
 Route::post('/auth/login', [AuthController::class, 'login']);
+Route::post('/auth/login/google', [AuthController::class, 'loginWithGoogle']);
 Route::post('/auth/verify_user_email', [AuthController::class, 'verifyUserEmail']);
 Route::post('/auth/resend_verification_code', [AuthController::class, 'resendEmailVerificationCode']);
 Route::post('/auth/logout', [AuthController::class, 'logout']);

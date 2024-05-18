@@ -385,7 +385,9 @@ class PostController extends Controller
     public function getPostById(Request $request)
     {
         $post = Post::find($request->id);
-
+        $post->load(['images', 'user', 'likes', 'comments' => function ($query) {
+            $query->orderBy('created_at', 'asc')->with('likes');
+        }]);
         if ($post) {
             return response()->json(['message' => 'Get post successfully.', 'data' => $post], 201);
         } else {

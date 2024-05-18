@@ -10,7 +10,9 @@ use App\Models\Account;
 use App\Models\User;
 use App\Services\EmailVerificationService;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -198,7 +200,11 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        $account = Account::where('email', $request->input('email'))->first();
+        $account = Account::where([
+            'email' => $request->input('email'),
+            'provider' => 'credential'
+        ])->first();
+
 
         if (!$account) {
             return response()->json([
@@ -236,6 +242,76 @@ class AuthController extends Controller
         }
     }
 
+
+    public function loginWithGoogle(Request $request) {
+        $account = Account::where([
+            'email' => $request->input('email'),
+            'provider' => 'google',
+            'providerAccountId' => $request->input('providerAccountId')
+        ])->first();
+
+        if ($account ) {
+            $account->update([
+                'access_token' => $request->input('access_token'),
+                'expires_at' => $request->input('expires_at')
+            ]);
+
+        
+            $user = User::where(['account_id'=>$account->id])->first();
+            $user->update([
+                'name' => $request->input('name'),
+                'image' => $request->input('image')
+            ]);
+
+            $credentials = [
+                'email' => $request->input('email'),
+                'password' => $request->input('providerAccountId'),
+                'provider' => 'google'
+            ];
+            
+            $token = auth()->attempt($credentials);
+            $mergedData = array_merge($user->refresh()->toArray(), $account->refresh()->toArray());
+            
+            return $this->responseWithToken($token, $mergedData); 
+
+        } else {
+            $account = Account::create([
+                'email' => $request->input('email'),
+                'provider' => 'google',
+                'providerAccountId' => $request->input('providerAccountId'),
+                'password' => Hash::make($request->input('providerAccountId')),
+                'role' => 1,
+                'isActived' => 1,
+                'access_token' => $request->input('access_token'),
+                'type' => 'oath',
+                'token_type' => 'bearer',
+                'expires_at' => $request->input('expires_at'),
+                'remember_token' => Str::random(10)
+            ]);
+
+        
+
+            $user = User::create([
+                'account_id' => $account->id,
+                'name' => $request->input('name'),
+                'image' => $request->input('image')
+            ]);
+
+            unset($account['id']);
+            
+            $credentials = [
+                'email' => $request->input('email'),
+                'password' => $request->input('providerAccountId'),
+                'provider' => 'google'
+
+            ];
+
+            $token = auth()->attempt($credentials);
+
+            $mergedData = array_merge($user->toArray(), $account->toArray());
+            return $this->responseWithToken($token, $mergedData); 
+        }
+    }
 
     public function logout()
     {

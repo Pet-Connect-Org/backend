@@ -15,7 +15,7 @@ class AccountSeeder extends Seeder
         //
         Account::insert([
             [
-                'id' => 1,
+                'id' => 5,
                 'email' => 'buithuyngoc1@gmail.com',
                 'password' => '$2y$12$PzQVh1IW1pwPn1FG5s6e5usjiF70A8LjfXCpc3IuLFosGG1Fo92/2',
                 'role' => 1,
@@ -23,7 +23,7 @@ class AccountSeeder extends Seeder
                 'remember_token' => 'nYpAiQ4tGw'
             ],
             [
-                'id' => 2,
+                'id' => 6,
                 'email' => 'buithuyanh2k5@gmail.com',
                 'password' => '$2y$12$mNuWwjtLXZUIefvNe50LEuiqO/ORQ.R3xu/Id/W/TiaGkZDD9DpjK',
                 'role' => 1,
